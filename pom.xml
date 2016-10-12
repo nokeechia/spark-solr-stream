@@ -9,9 +9,25 @@
     <version>1.0-SNAPSHOT</version>
     <properties>
         <scala.version>2.10.5</scala.version>
-        <solr.version>4.10.3</solr.version>
+        <scala.binary.version>2.10</scala.binary.version>
+        <solr.version>4.10.3-cdh5.5.2</solr.version>
+        <spark.version>1.5.0-cdh5.5.2</spark.version>
     </properties>
     <dependencies>
+        <!-- Spark -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
+            <!--scope>provided</scope-->
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql_${scala.binary.version}</artifactId>
+            <version>1.5.0-cdh5.5.0</version>
+            <!--scope>provided</scope-->
+        </dependency>
+
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
@@ -55,15 +71,15 @@
             <groupId>org.apache.solr</groupId>
             <version>${solr.version}</version>
             <exclusions>
-                <exclusion>
+                <!--exclusion>
                     <groupId>org.slf4j</groupId>
                     <artifactId>jcl-over-slf4j</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-jdk14</artifactId>
-                </exclusion>
-                <exclusion>
+                </exclusion-->
+                <!--exclusion>
                     <groupId>org.apache.hadoop</groupId>
                     <artifactId>hadoop-annotations</artifactId>
                 </exclusion>
@@ -82,12 +98,12 @@
                 <exclusion>
                     <groupId>org.apache.hadoop</groupId>
                     <artifactId>hadoop-annotations</artifactId>
-                </exclusion>
+                </exclusion-->
                 <!-- Conflicts with the GBIF crawler library -->
-                <exclusion>
+                <!--exclusion>
                     <groupId>org.codehaus.woodstox</groupId>
                     <artifactId>wstx-asl</artifactId>
-                </exclusion>
+                </exclusion-->
             </exclusions>
         </dependency>
         <dependency>
@@ -119,6 +135,15 @@
 
 
     </dependencies>
-
+    <repositories>
+        <repository>
+            <id>mvn-official</id>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
+        <repository>
+            <id>cloudera</id>
+            <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
+        </repository>
+    </repositories>
 
 </project>

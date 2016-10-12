@@ -4,10 +4,10 @@ package org.roboutik.dao
   * Created by Keech on 09/10/2016.
   */
 
-import scala.collection.mutable.ArrayBuffer
-import java.util.Date
-import org.slf4j.LoggerFactory
-import java.io.{File, FileWriter, OutputStream}
+
+import org.apache.solr.client.solrj.{SolrQuery, SolrServer}
+import org.apache.solr.common.SolrDocumentList
+import org.roboutik.dao.impl.SolrCallback
 
 import scala.util.parsing.json.JSON
 
@@ -17,11 +17,16 @@ import scala.util.parsing.json.JSON
   */
 trait IndexDAO {
 
-  val logger = LoggerFactory.getLogger("IndexDAO")
+  val rowLimit = 1000
 
-  def getRowKeysForQuery(query: String, limit: Int = 1000): Option[List[String]]
+  def streamIndex(server:SolrServer, query: SolrQuery, solrCallback: SolrCallback): SolrDocumentList
 
-  def streamIndex(proc: java.util.Map[String,AnyRef] => Boolean, fieldsToRetrieve:Array[String], query:String, filterQueries: Array[String], sortFields: Array[String],multivaluedFields: Option[Array[String]] = None)
+  def getConnection(collection:String, connectionDetails: String*):SolrServer
 
+  def getRowKeysForQuery(query: SolrQuery, solrServer: SolrServer,limit: Option[Int]= Some(rowLimit),solrCallback: SolrCallback): Option[List[String]]
+
+  def configureKerberosSecurity(jaasLocation: String)
+
+  def getKerberosToken(solrUrl: String, jaasLocation: String):Option[String]
 
 }
